@@ -22,8 +22,8 @@ public class CompanyMembershipController {
 
     @PostMapping("/{companyId}")
     public ResponseEntity<CompanyMembership> createRequest(
-            @PathVariable UUID companyId) {
-        CompanyMembership newRequest = companyMembershipService.createRequest(companyId);
+            @PathVariable String companyName) {
+        CompanyMembership newRequest = companyMembershipService.createRequest(companyName);
         return ResponseEntity.ok(newRequest);
     }
 

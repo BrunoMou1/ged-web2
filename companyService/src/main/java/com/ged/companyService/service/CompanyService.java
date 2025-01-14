@@ -54,6 +54,10 @@ public class CompanyService {
                 .orElseThrow(() -> new RuntimeException("Company not found"));
     }
 
+    public Company findByName(String companyName) {
+        return companyRepository.findByName(companyName);
+    }
+
 
     public List<Company> getCompaniesByUsername(String username) {
         List<UserCompany> userCompanies = userCompanyService.findByUsername(username);

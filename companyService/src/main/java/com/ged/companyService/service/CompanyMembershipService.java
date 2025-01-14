@@ -33,8 +33,10 @@ public class CompanyMembershipService {
         this.jwtTokenUtil = jwtTokenUtil;
     }
 
-    public CompanyMembership createRequest(UUID companyId) {
+    public CompanyMembership createRequest(String companyName) {
         CompanyMembership request = new CompanyMembership();
+
+        UUID companyId = companyService.findByName(companyName).getId();
 
         String token = jwtTokenUtil.getTokenFromHeader();
         String requesterUsername = jwtTokenUtil.extractUsername(token);
