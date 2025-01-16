@@ -20,7 +20,7 @@ public class CompanyMembershipController {
         this.companyMembershipService = companyMembershipService;
     }
 
-    @PostMapping("/{companyId}")
+    @PostMapping("/{companyName}")
     public ResponseEntity<CompanyMembership> createRequest(
             @PathVariable String companyName) {
         CompanyMembership newRequest = companyMembershipService.createRequest(companyName);
