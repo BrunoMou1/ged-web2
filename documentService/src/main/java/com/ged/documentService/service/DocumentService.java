@@ -2,14 +2,13 @@ package com.ged.documentService.service;
 
 import com.ged.documentService.client.MetadataFeingClient;
 import com.ged.documentService.dto.DocumentMetadataDTO;
+import software.amazon.awssdk.core.ResponseBytes;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
-import software.amazon.awssdk.services.s3.model.HeadObjectRequest;
-import software.amazon.awssdk.services.s3.model.PutObjectRequest;
+import software.amazon.awssdk.services.s3.model.*;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -90,6 +89,23 @@ public class DocumentService {
             }
         } else {
             throw new Exception("File does not exist");
+        }
+    }
+
+    public byte[] downloadDocument(UUID companyId, String documentName) {
+        try {
+            String key = companyId.toString() + "/" + documentName;
+
+            GetObjectRequest getObjectRequest = GetObjectRequest.builder()
+                    .bucket(bucketName)
+                    .key(key)
+                    .build();
+
+            ResponseBytes<GetObjectResponse> response = s3Client.getObjectAsBytes(getObjectRequest);
+
+            return response.asByteArray();
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao baixar o documento do S3", e);
         }
     }
 
